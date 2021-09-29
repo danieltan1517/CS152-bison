@@ -11,50 +11,34 @@ void yyerror(const char* s);
 %}
 
 %union {
-	int ival;
+  int ival;
 }
 
-%token<ival> INT
-%token PLUS MINUS MULTIPLY DIVIDE LEFT_PAREN RIGHT_PAREN
-%token NEWLINE QUIT
-%left PLUS MINUS
-%left MULTIPLY DIVIDE
+%left LEFT_PAREN RIGHT_PAREN 
 
-%type<ival> expression
-
-%start calculation
+%start expr 
 
 %%
 
-calculation:
-	   | calculation line
-;
-
-line: NEWLINE
-    | expression NEWLINE { printf("\tResult: %i\n", $1); }
-    | QUIT NEWLINE { printf("bye!\n"); exit(0); }
-;
-
-expression: INT				{ $$ = $1; }
-	  | expression PLUS expression	{ $$ = $1 + $3; }
-	  | expression MINUS expression	{ $$ = $1 - $3; }
-	  | expression MULTIPLY expression	{ $$ = $1 * $3; }
-	  | LEFT_PAREN expression RIGHT_PAREN		{ $$ = $2; }
+expr: LEFT_PAREN expr RIGHT_PAREN expr 
+    | 
 ;
 
 %%
 
 int main() {
-	yyin = stdin;
+  yyin = stdin;
 
-	do {
-		yyparse();
-	} while(!feof(yyin));
-
-	return 0;
+  do {
+    printf("Parse.\n");
+    yyparse();
+  } while(!feof(yyin));
+  printf("Parenthesis are balanced!\n");
+  return 0;
 }
 
 void yyerror(const char* s) {
-	fprintf(stderr, "Parse error: %s\n", s);
-	exit(1);
+  fprintf(stderr, "Parse error: %s. Parenthesis are not balanced!\n", s);
+  exit(1);
 }
+
