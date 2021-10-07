@@ -10,10 +10,6 @@ extern FILE* yyin;
 void yyerror(const char* s);
 %}
 
-%union {
-  int ival;
-}
-
 %left LEFT_PAREN RIGHT_PAREN 
 
 %start expr 
