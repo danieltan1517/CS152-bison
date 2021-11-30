@@ -3,10 +3,9 @@
 %{
 #include <stdio.h>
 
-#define YY_DECL int yylex()
+#define YY_DECL int yylex(void)
 
 #include "calc.tab.h"
-
 %}
 
 %%

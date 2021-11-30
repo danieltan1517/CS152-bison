@@ -17,7 +17,7 @@ void yyerror(const char* s);
 %%
 
 expr: LEFT_PAREN expr RIGHT_PAREN expr 
-    | 
+    | %empty
 ;
 
 %%
