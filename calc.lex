@@ -7,7 +7,7 @@
 #include "calc.tab.h"
 
 char *create_string(char *text, int len) {
-  char *string_value = new char[len];
+  char *string_value = new char[len + 1];
   strcpy(string_value, text);
   return string_value;
 }
