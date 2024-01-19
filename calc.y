@@ -10,13 +10,20 @@ extern FILE* yyin;
 void yyerror(const char* s);
 %}
 
-%left LEFT_PAREN RIGHT_PAREN 
+%union {
+  char *op_value;
+}
+
+%define parse.error verbose
+
+%left LEFT_PAREN RIGHT_PAREN IDENTIFIER
 
 %start expr 
 
 %%
 
 expr: LEFT_PAREN expr RIGHT_PAREN expr 
+    | IDENTIFIER
     | %empty
 ;
 
@@ -24,12 +31,7 @@ expr: LEFT_PAREN expr RIGHT_PAREN expr
 
 int main() {
   yyin = stdin;
-
-  do {
-    printf("Parse.\n");
-    yyparse();
-  } while(!feof(yyin));
-  printf("Parenthesis are balanced!\n");
+  yyparse();
   return 0;
 }
 
